@@ -1,9 +1,9 @@
 /**
  * THE READING LOUNGE - APPLICATION CORE SCRIPT
- * Book Renting Service SPA Logic in Indian Rupees (₹)
+ * Book Renting Service SPA Logic in Indian Rupees (₹) with Deposits < 25%
  */
 
-// 1. INVENTORY DATASET WITH SPECIFIC REQUESTED BOOKS
+// 1. INVENTORY DATASET WITH DEPOSITS LESS THAN 25%
 const BOOK_INVENTORY = [
   {
     id: "VOL-501",
@@ -17,10 +17,11 @@ const BOOK_INVENTORY = [
     dailyRate: 12,
     weeklyRate: 79,
     monthlyRate: 249,
-    deposit: 499,
+    deposit: 99,
     condition: "Mint (A+)",
     year: 2018,
     rating: 4.95,
+    coverImg: "assets/5am_club.jpg",
     coverStyle: "cover-5am-club",
     description: "Legendary leadership and elite performance expert Robin Sharma introduced The 5am Club concept over twenty years ago, based on a revolutionary morning routine that has helped his clients maximize productivity and activate supreme health.",
     isFeatured: true
@@ -37,10 +38,11 @@ const BOOK_INVENTORY = [
     dailyRate: 24,
     weeklyRate: 149,
     monthlyRate: 499,
-    deposit: 899,
+    deposit: 199,
     condition: "Mint (A+)",
     year: 1997,
     rating: 5.0,
+    coverImg: "assets/harry_potter.jpg",
     coverStyle: "cover-harry-potter",
     description: "The timeless fantasy classic that turned millions into readers. Deluxe clothbound collector edition with gold foil crest detail and archival protection.",
     isFeatured: true
@@ -57,10 +59,11 @@ const BOOK_INVENTORY = [
     dailyRate: 12,
     weeklyRate: 79,
     monthlyRate: 249,
-    deposit: 499,
+    deposit: 99,
     condition: "Fine (A)",
     year: 2019,
     rating: 4.9,
+    coverImg: "assets/the_silent_patient.jpg",
     coverStyle: "cover-silent-patient",
     description: "Alicia Berenson’s life is seemingly perfect. Then one evening, she shoots her husband five times in the face, and then never speaks another word. A shocking psychological thriller with an unforgettable twist.",
     isFeatured: true
@@ -77,10 +80,11 @@ const BOOK_INVENTORY = [
     dailyRate: 12,
     weeklyRate: 79,
     monthlyRate: 249,
-    deposit: 499,
+    deposit: 99,
     condition: "Mint (A+)",
     year: 2015,
     rating: 4.88,
+    coverImg: "assets/before_the_coffee_gets_cold.jpg",
     coverStyle: "cover-before-coffee",
     description: "In a small back alley in Tokyo, there is a cafe which has been serving carefully brewed coffee for more than a hundred years. But this coffee shop offers its customers a unique experience: the chance to travel back in time.",
     isFeatured: true
@@ -97,7 +101,7 @@ const BOOK_INVENTORY = [
     dailyRate: 12,
     weeklyRate: 79,
     monthlyRate: 249,
-    deposit: 499,
+    deposit: 99,
     condition: "Mint (A+)",
     year: 2018,
     rating: 4.98,
@@ -117,7 +121,7 @@ const BOOK_INVENTORY = [
     dailyRate: 8,
     weeklyRate: 49,
     monthlyRate: 149,
-    deposit: 299,
+    deposit: 49,
     condition: "Fine (A)",
     year: 2020,
     rating: 4.92,
@@ -137,7 +141,7 @@ const BOOK_INVENTORY = [
     dailyRate: 12,
     weeklyRate: 79,
     monthlyRate: 249,
-    deposit: 499,
+    deposit: 99,
     condition: "Fine (A)",
     year: 1983,
     rating: 4.95,
@@ -157,7 +161,7 @@ const BOOK_INVENTORY = [
     dailyRate: 8,
     weeklyRate: 49,
     monthlyRate: 149,
-    deposit: 299,
+    deposit: 49,
     condition: "Fine (A)",
     year: 1925,
     rating: 4.85,
@@ -177,7 +181,7 @@ const BOOK_INVENTORY = [
     dailyRate: 12,
     weeklyRate: 79,
     monthlyRate: 249,
-    deposit: 499,
+    deposit: 99,
     condition: "Mint (A+)",
     year: 2014,
     rating: 4.9,
@@ -197,7 +201,7 @@ const BOOK_INVENTORY = [
     dailyRate: 8,
     weeklyRate: 49,
     monthlyRate: 149,
-    deposit: 299,
+    deposit: 49,
     condition: "Fine (A)",
     year: 1960,
     rating: 4.93,
@@ -219,35 +223,23 @@ class LoungeApp {
   }
 
   init() {
-    // 1. Render Featured books on Home page
     this.renderHomeFeatured();
-
-    // 2. Render Full Catalog on Genre page
     this.renderCatalog();
-
-    // 3. Render Master Price List Table
     this.renderPriceTable();
-
-    // 4. Populate Form Select Dropdown
     this.populateFormBookDropdown();
-
-    // 5. Initialize Calculator & Form Summaries
     this.updateCalculator();
     this.setDefaultDates();
     this.updateFormPricePreview();
 
-    // 6. Handle Hash Routing if present
     const hash = window.location.hash.replace('#', '');
     if (['home', 'genre', 'pricelist', 'renterform', 'contact'].includes(hash)) {
       this.navigateTo(hash);
     }
   }
 
-  // TAB NAVIGATION SYSTEM
   navigateTo(tabId) {
     this.currentTab = tabId;
 
-    // Update active tab buttons
     document.querySelectorAll('.nav-btn').forEach(btn => {
       if (btn.dataset.tab === tabId) {
         btn.classList.add('active');
@@ -256,7 +248,6 @@ class LoungeApp {
       }
     });
 
-    // Update active tab pane
     document.querySelectorAll('.tab-pane').forEach(pane => {
       if (pane.id === `tab-${tabId}`) {
         pane.classList.add('active');
@@ -265,10 +256,7 @@ class LoungeApp {
       }
     });
 
-    // Update URL hash without scroll jump
     window.history.replaceState(null, '', `#${tabId}`);
-
-    // Smooth scroll to top
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -277,7 +265,6 @@ class LoungeApp {
     navTabs.classList.toggle('mobile-open');
   }
 
-  // RENDER HOME FEATURED BOOKS
   renderHomeFeatured() {
     const container = document.getElementById('home-featured-grid');
     if (!container) return;
@@ -286,10 +273,20 @@ class LoungeApp {
     container.innerHTML = featuredBooks.map(book => this.createBookCardHTML(book)).join('');
   }
 
-  // CREATE BOOK CARD HTML
   createBookCardHTML(book) {
-    return `
-      <div class="book-card">
+    const condClass = book.condition.includes('Mint') ? 'cond-mint' : (book.condition.includes('Fine') ? 'cond-fine' : 'cond-verygood');
+    
+    let coverContent = '';
+    if (book.coverImg) {
+      coverContent = `
+        <div class="book-cover-wrap">
+          <span class="cover-overlay-badge">VOL. ${book.id}</span>
+          <span class="cover-overlay-cond condition-badge ${condClass}">${book.condition}</span>
+          <img src="${book.coverImg}" alt="${book.title} cover" class="book-cover-img" loading="lazy">
+        </div>
+      `;
+    } else {
+      coverContent = `
         <div class="book-cover-wrap ${book.coverStyle}">
           <div class="cover-header-tag">VOL. ${book.id}</div>
           <div class="cover-title-box">
@@ -301,6 +298,12 @@ class LoungeApp {
             <span>${book.year}</span>
           </div>
         </div>
+      `;
+    }
+
+    return `
+      <div class="book-card">
+        ${coverContent}
 
         <div class="book-card-meta">
           <div class="book-meta-genre">${book.genreLabel}</div>
@@ -325,7 +328,6 @@ class LoungeApp {
     `;
   }
 
-  // CATALOG & GENRE FILTERING
   filterGenre(genreKey) {
     this.currentGenre = genreKey;
 
@@ -387,18 +389,15 @@ class LoungeApp {
     const sortBy = document.getElementById('sort-by')?.value || 'featured';
 
     let list = BOOK_INVENTORY.filter(book => {
-      // Genre filter
       if (this.currentGenre !== 'all' && book.genre !== this.currentGenre && this.currentGenre !== 'bestsellers') {
         return false;
       }
       if (this.currentGenre === 'bestsellers' && !['VOL-501', 'VOL-502', 'VOL-503', 'VOL-504', 'VOL-505', 'VOL-506'].includes(book.id)) {
         return false;
       }
-      // Condition filter
       if (conditionFilter !== 'all' && book.condition !== conditionFilter) {
         return false;
       }
-      // Search query
       if (query) {
         const matchTitle = book.title.toLowerCase().includes(query);
         const matchAuthor = book.author.toLowerCase().includes(query);
@@ -409,7 +408,6 @@ class LoungeApp {
       return true;
     });
 
-    // Sorting
     if (sortBy === 'price-asc') {
       list.sort((a, b) => a.weeklyRate - b.weeklyRate);
     } else if (sortBy === 'price-desc') {
@@ -431,7 +429,6 @@ class LoungeApp {
     }
   }
 
-  // MASTER PRICE TABLE IN RUPEES
   renderPriceTable() {
     const tbody = document.getElementById('master-price-tbody');
     if (!tbody) return;
@@ -458,7 +455,7 @@ class LoungeApp {
         <td>₹${b.dailyRate}</td>
         <td><strong>₹${b.weeklyRate}</strong></td>
         <td>₹${b.monthlyRate}</td>
-        <td>₹${b.deposit}</td>
+        <td><strong>₹${b.deposit}</strong></td>
         <td>
           <button class="btn btn-outline" onclick="app.rentBookDirectly('${b.id}')">
             Reserve
@@ -468,7 +465,6 @@ class LoungeApp {
     `).join('');
   }
 
-  // CALCULATOR TOOL LOGIC IN RUPEES
   selectTierForCalc(tierKey) {
     const select = document.getElementById('calc-book-select');
     if (select) {
@@ -493,7 +489,7 @@ class LoungeApp {
     }
 
     let dailyRate = 12;
-    let deposit = 499;
+    let deposit = 99;
 
     if (bookSelectVal.startsWith('VOL-')) {
       const b = BOOK_INVENTORY.find(x => x.id === bookSelectVal);
@@ -503,13 +499,13 @@ class LoungeApp {
       }
     } else if (bookSelectVal === 'tier-standard') {
       dailyRate = 8;
-      deposit = 299;
+      deposit = 49;
     } else if (bookSelectVal === 'tier-scholar') {
       dailyRate = 12;
-      deposit = 499;
+      deposit = 99;
     } else if (bookSelectVal === 'tier-collector') {
       dailyRate = 24;
-      deposit = 899;
+      deposit = 199;
     }
 
     let deliveryPrice = 49;
@@ -518,7 +514,6 @@ class LoungeApp {
 
     let baseRentalFee = Math.round(dailyRate * durationDays);
 
-    // Apply long-term discounts
     if (durationDays >= 30 && durationDays < 60) {
       baseRentalFee = Math.round(baseRentalFee * 0.90);
     } else if (durationDays >= 60) {
@@ -555,7 +550,6 @@ class LoungeApp {
     this.updateFormPricePreview();
   }
 
-  // RENTER FORM LOGIC IN RUPEES
   populateFormBookDropdown() {
     const select = document.getElementById('form-book-select');
     const calcSelect = document.getElementById('calc-book-select');
@@ -563,7 +557,7 @@ class LoungeApp {
     if (select) {
       let html = `<option value="" disabled selected>-- Select a Book from Inventory --</option>`;
       BOOK_INVENTORY.forEach(b => {
-        html += `<option value="${b.id}">${b.id}: ${b.title} (${b.genreLabel} — ₹${b.weeklyRate}/wk)</option>`;
+        html += `<option value="${b.id}">${b.id}: ${b.title} (${b.genreLabel} — ₹${b.weeklyRate}/wk, Deposit: ₹${b.deposit})</option>`;
       });
       select.innerHTML = html;
     }
@@ -606,15 +600,16 @@ class LoungeApp {
 
     if (book && previewCard) {
       previewCard.style.display = 'flex';
+      const imgHTML = book.coverImg 
+        ? `<img src="${book.coverImg}" alt="${book.title}" style="width:70px; height:100px; object-fit:cover; border-radius:4px; box-shadow:var(--shadow-sm);">`
+        : `<div class="spine-item ${book.coverStyle}" style="padding: 10px 16px; border-radius: 4px; min-width: 120px;"><span style="font-size:0.65rem; color:var(--accent-gold);">${book.genreLabel}</span><span style="font-family:var(--font-serif); font-weight:700;">${book.title}</span></div>`;
+
       previewCard.innerHTML = `
-        <div class="spine-item ${book.coverStyle}" style="padding: 10px 16px; border-radius: 4px; min-width: 140px;">
-          <span style="font-size:0.65rem; color:var(--accent-gold);">${book.genreLabel}</span>
-          <span style="font-family:var(--font-serif); font-weight:700;">${book.title}</span>
-        </div>
+        ${imgHTML}
         <div>
           <h4 style="font-family:var(--font-serif); font-size:1.15rem;">${book.title}</h4>
           <p style="font-size:0.85rem; color:var(--text-secondary);">Author: ${book.author} &bull; Condition: <strong>${book.condition}</strong></p>
-          <p style="font-size:0.85rem; color:var(--accent-gold); margin-top:2px;">Weekly Rate: ₹${book.weeklyRate} &bull; Refundable Deposit: ₹${book.deposit}</p>
+          <p style="font-size:0.85rem; color:var(--accent-gold); margin-top:2px;">Weekly Rate: ₹${book.weeklyRate} &bull; Refundable Deposit (&lt;25%): ₹${book.deposit}</p>
         </div>
       `;
     } else if (previewCard) {
@@ -622,7 +617,7 @@ class LoungeApp {
     }
 
     const dailyRate = book ? book.dailyRate : 12;
-    const deposit = book ? book.deposit : 499;
+    const deposit = book ? book.deposit : 99;
     
     let baseRentalFee = Math.round(dailyRate * durationDays);
     if (durationDays >= 30 && durationDays < 60) baseRentalFee = Math.round(baseRentalFee * 0.90);
@@ -718,12 +713,13 @@ class LoungeApp {
 
       <div style="background:var(--bg-card); border:1px solid var(--border-color); padding:16px; border-radius:6px; margin-bottom:20px;">
         <strong style="color:var(--accent-gold);">Reserved Book Summary:</strong>
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
-          <div>
+        <div style="display:flex; gap:14px; align-items:center; margin-top:8px;">
+          ${book.coverImg ? `<img src="${book.coverImg}" style="width:60px; height:85px; object-fit:cover; border-radius:4px;">` : ''}
+          <div style="flex:1;">
             <h4 style="font-family:var(--font-serif); font-size:1.15rem;">${book.title}</h4>
             <p style="font-size:0.85rem; color:var(--text-secondary);">By ${book.author} &bull; Ref: ${book.id}</p>
+            <span class="condition-badge cond-mint" style="display:inline-block; margin-top:4px;">${book.condition}</span>
           </div>
-          <span class="condition-badge cond-mint">${book.condition}</span>
         </div>
         <hr style="border:none; border-top:1px dashed var(--border-color); margin:12px 0;">
         <div style="display:flex; justify-content:space-between; font-size:0.88rem;">
@@ -734,7 +730,7 @@ class LoungeApp {
 
       <div style="background:var(--bg-dark); color:#FFF; padding:16px; border-radius:6px; font-size:0.95rem;">
         <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-          <span>Refundable Security Deposit:</span>
+          <span>Refundable Security Deposit (&lt;25%):</span>
           <strong style="color:var(--accent-light);">${deposit}</strong>
         </div>
         <div style="display:flex; justify-content:space-between; font-size:1.15rem; font-weight:700; border-top:1px solid #3D3731; padding-top:8px;">
@@ -746,7 +742,6 @@ class LoungeApp {
 
     document.getElementById('receipt-modal-backdrop').style.display = 'flex';
 
-    // LocalStorage recording
     const reservationRecord = {
       voucherRef,
       renterName: `${firstName} ${lastName}`,
@@ -768,25 +763,18 @@ class LoungeApp {
     this.navigateTo('home');
   }
 
-  // QUICK VIEW BOOK MODAL
   quickViewBook(bookId) {
     const book = BOOK_INVENTORY.find(b => b.id === bookId);
     if (!book) return;
 
+    const coverHtml = book.coverImg 
+      ? `<div style="height:320px; border-radius:6px; overflow:hidden; box-shadow:var(--shadow-book); border-left:5px solid rgba(0,0,0,0.3);"><img src="${book.coverImg}" alt="${book.title}" style="width:100%; height:100%; object-fit:cover;"></div>`
+      : `<div class="book-cover-wrap ${book.coverStyle}" style="height:300px;"><div class="cover-header-tag">VOL. ${book.id}</div><div class="cover-title-box"><div class="cover-book-title">${book.title}</div><div class="cover-book-author">by ${book.author}</div></div><div class="cover-footer-seal"><span>${book.genreLabel}</span><span>${book.year}</span></div></div>`;
+
     const modalBody = document.getElementById('book-modal-body');
     modalBody.innerHTML = `
-      <div style="display:grid; grid-template-columns:0.8fr 1.2fr; gap:24px; align-items:start; padding:24px;">
-        <div class="book-cover-wrap ${book.coverStyle}" style="height:300px;">
-          <div class="cover-header-tag">VOL. ${book.id}</div>
-          <div class="cover-title-box">
-            <div class="cover-book-title">${book.title}</div>
-            <div class="cover-book-author">by ${book.author}</div>
-          </div>
-          <div class="cover-footer-seal">
-            <span>${book.genreLabel}</span>
-            <span>${book.year}</span>
-          </div>
-        </div>
+      <div style="display:grid; grid-template-columns:0.85fr 1.15fr; gap:24px; align-items:start; padding:24px;">
+        ${coverHtml}
 
         <div>
           <span class="section-tag">${book.genreLabel} &bull; ${book.tier}</span>
@@ -808,7 +796,7 @@ class LoungeApp {
               <strong>₹${book.monthlyRate} / mo</strong>
             </div>
             <div style="display:flex; justify-content:space-between;">
-              <span>Refundable Deposit:</span>
+              <span>Refundable Deposit (&lt;25%):</span>
               <strong>₹${book.deposit}</strong>
             </div>
           </div>
@@ -834,7 +822,6 @@ class LoungeApp {
     }
   }
 
-  // RENTAL BASKET DRAWER LOGIC
   toggleBasketDrawer() {
     const drawer = document.getElementById('basket-drawer');
     const backdrop = document.getElementById('drawer-backdrop');
@@ -896,9 +883,12 @@ class LoungeApp {
       subtotal += itemTotal;
       return `
         <div style="display:flex; justify-content:space-between; align-items:center; background:var(--bg-secondary); padding:12px; border-radius:6px; border:1px solid var(--border-color);">
-          <div>
-            <h4 style="font-family:var(--font-serif); font-size:1rem;">${book.title}</h4>
-            <p style="font-size:0.8rem; color:var(--text-secondary);">₹${book.weeklyRate}/wk + ₹${book.deposit} deposit</p>
+          <div style="display:flex; gap:10px; align-items:center;">
+            ${book.coverImg ? `<img src="${book.coverImg}" style="width:40px; height:55px; object-fit:cover; border-radius:3px;">` : ''}
+            <div>
+              <h4 style="font-family:var(--font-serif); font-size:0.95rem;">${book.title}</h4>
+              <p style="font-size:0.78rem; color:var(--text-secondary);">₹${book.weeklyRate}/wk + ₹${book.deposit} deposit</p>
+            </div>
           </div>
           <button style="background:none; border:none; color:#B93829; font-size:1.2rem; cursor:pointer;" onclick="app.removeFromBasket('${book.id}')">&times;</button>
         </div>
@@ -918,7 +908,6 @@ class LoungeApp {
     this.rentBookDirectly(firstBook.id);
   }
 
-  // CONTACT & FAQ ACCORDION LOGIC
   handleContactSubmit(event) {
     event.preventDefault();
     const name = document.getElementById('contact-name').value;

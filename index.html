@@ -18,7 +18,7 @@
   <!-- Top Announcement Bar -->
   <div class="top-announcement" id="top-announcement">
     <div class="announcement-content">
-      <span>📖 <strong>The Reading Lounge:</strong> Reserve any 2 volumes this month &amp; get free doorstep delivery with code <em>LOUNGEIN</em></span>
+      <span>📖 <strong>The Reading Lounge:</strong> Low deposit policy! Security deposit under 25% of book value. Code <em>LOUNGEIN</em></span>
       <button class="close-announcement" aria-label="Close announcement" onclick="document.getElementById('top-announcement').style.display='none'">&times;</button>
     </div>
   </div>
@@ -27,17 +27,7 @@
   <header class="main-header" id="main-header">
     <div class="header-container">
       <div class="brand-logo" onclick="app.navigateTo('home')">
-        <div class="logo-seal">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path>
-            <path d="M6 6h10"></path>
-            <path d="M6 10h8"></path>
-          </svg>
-        </div>
-        <div class="brand-text">
-          <span class="brand-name">THE READING LOUNGE</span>
-          <span class="brand-tagline">CURATED BOOK RENTAL SALON</span>
-        </div>
+        <img src="assets/logo.png" alt="The Reading Lounge" class="nav-logo-img">
       </div>
 
       <!-- Main Navigation Tabs -->
@@ -76,15 +66,98 @@
     <section class="tab-pane active" id="tab-home">
       <!-- Hero Section -->
       <div class="hero-section">
-        <div class="hero-backdrop"></div>
+        <!-- Animated Book Covers Visual — LEFT column -->
+        <div class="hero-books-visual">
+          <!-- Column 1: scrolls upward -->
+          <div class="books-column col-up">
+            <div class="books-column-inner">
+              <div class="hero-book-cover">
+                <img src="assets/5am_club.jpg" alt="The 5 AM Club">
+                <div class="cover-glow"></div>
+              </div>
+              <div class="hero-book-cover">
+                <img src="assets/harry_potter.jpg" alt="Harry Potter">
+                <div class="cover-glow"></div>
+              </div>
+              <div class="hero-book-cover">
+                <img src="assets/the_silent_patient.jpg" alt="The Silent Patient">
+                <div class="cover-glow"></div>
+              </div>
+              <div class="hero-book-cover">
+                <img src="assets/before_the_coffee_gets_cold.jpg" alt="Before the Coffee Gets Cold">
+                <div class="cover-glow"></div>
+              </div>
+              <!-- Duplicates for seamless loop -->
+              <div class="hero-book-cover">
+                <img src="assets/5am_club.jpg" alt="The 5 AM Club">
+                <div class="cover-glow"></div>
+              </div>
+              <div class="hero-book-cover">
+                <img src="assets/harry_potter.jpg" alt="Harry Potter">
+                <div class="cover-glow"></div>
+              </div>
+              <div class="hero-book-cover">
+                <img src="assets/the_silent_patient.jpg" alt="The Silent Patient">
+                <div class="cover-glow"></div>
+              </div>
+              <div class="hero-book-cover">
+                <img src="assets/before_the_coffee_gets_cold.jpg" alt="Before the Coffee Gets Cold">
+                <div class="cover-glow"></div>
+              </div>
+            </div>
+          </div>
+          <!-- Column 2: scrolls downward -->
+          <div class="books-column col-down">
+            <div class="books-column-inner">
+              <div class="hero-book-cover">
+                <img src="assets/before_the_coffee_gets_cold.jpg" alt="Before the Coffee Gets Cold">
+                <div class="cover-glow"></div>
+              </div>
+              <div class="hero-book-cover">
+                <img src="assets/the_silent_patient.jpg" alt="The Silent Patient">
+                <div class="cover-glow"></div>
+              </div>
+              <div class="hero-book-cover">
+                <img src="assets/harry_potter.jpg" alt="Harry Potter">
+                <div class="cover-glow"></div>
+              </div>
+              <div class="hero-book-cover">
+                <img src="assets/5am_club.jpg" alt="The 5 AM Club">
+                <div class="cover-glow"></div>
+              </div>
+              <!-- Duplicates for seamless loop -->
+              <div class="hero-book-cover">
+                <img src="assets/before_the_coffee_gets_cold.jpg" alt="Before the Coffee Gets Cold">
+                <div class="cover-glow"></div>
+              </div>
+              <div class="hero-book-cover">
+                <img src="assets/the_silent_patient.jpg" alt="The Silent Patient">
+                <div class="cover-glow"></div>
+              </div>
+              <div class="hero-book-cover">
+                <img src="assets/harry_potter.jpg" alt="Harry Potter">
+                <div class="cover-glow"></div>
+              </div>
+              <div class="hero-book-cover">
+                <img src="assets/5am_club.jpg" alt="The 5 AM Club">
+                <div class="cover-glow"></div>
+              </div>
+            </div>
+          </div>
+          <!-- Gradient fade masks top & bottom -->
+          <div class="books-fade-top"></div>
+          <div class="books-fade-bottom"></div>
+        </div>
+
+        <!-- Text content — RIGHT column -->
         <div class="hero-content">
-          <div class="hero-badge">The Reading Lounge &bull; Premium Book Rentals in ₹</div>
+          <div class="hero-badge">The Reading Lounge &bull; Nominal Security Deposit (&lt;25%)</div>
           <h1 class="hero-title">Rent Popular Bestsellers &amp; Classics on Flexible Terms.</h1>
-          <p class="hero-subtitle">Access books like <em>The 5 AM Club</em>, <em>Harry Potter</em>, <em>The Silent Patient</em>, and <em>Before the Coffee Gets Cold</em> with doorstep delivery across India. Affordable rates starting at just ₹49/week.</p>
+          <p class="hero-subtitle">Access books like <em>The 5 AM Club</em>, <em>Harry Potter</em>, <em>The Silent Patient</em>, and <em>Before the Coffee Gets Cold</em> with doorstep delivery across India. Minimal deposit under 25% of book value.</p>
 
           <div class="hero-actions">
             <button class="btn btn-primary" onclick="app.navigateTo('genre')">
-              <span>Explore Catalog by Genre</span>
+              <span>Browse Catalog by Genre</span>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </button>
             <button class="btn btn-secondary" onclick="app.navigateTo('pricelist')">
@@ -99,27 +172,6 @@
               <input type="text" id="hero-search-input" placeholder="Search by title (e.g. Harry Potter, 5 AM Club, Silent Patient)..." onkeydown="if(event.key==='Enter') app.searchFromHero()">
             </div>
             <button class="search-btn" onclick="app.searchFromHero()">Find Volume</button>
-          </div>
-        </div>
-
-        <div class="hero-card-preview">
-          <div class="featured-spine-stack">
-            <div class="spine-item spine-1">
-              <span class="spine-genre">Self-Mastery</span>
-              <span class="spine-title">The 5 AM Club — Robin Sharma</span>
-            </div>
-            <div class="spine-item spine-2">
-              <span class="spine-genre">Fantasy Classic</span>
-              <span class="spine-title">Harry Potter — J.K. Rowling</span>
-            </div>
-            <div class="spine-item spine-3">
-              <span class="spine-genre">Thriller</span>
-              <span class="spine-title">The Silent Patient — A. Michaelides</span>
-            </div>
-          </div>
-          <div class="broker-stamp">
-            <span class="stamp-circle">VERIFIED</span>
-            <span class="stamp-text">Pristine Condition &bull; Preservation Grade A+</span>
           </div>
         </div>
       </div>
@@ -143,8 +195,8 @@
         <div class="feature-item">
           <div class="feature-icon">₹</div>
           <div class="feature-text">
-            <h3>Affordable Rupee Rates</h3>
-            <p>Weekly rentals starting from ₹49/week. 100% refundable security deposit.</p>
+            <h3>Nominal Deposits (&lt;25%)</h3>
+            <p>Very low security deposits starting at just ₹49. 100% refundable upon book return.</p>
           </div>
         </div>
         <div class="feature-item">
@@ -187,7 +239,7 @@
           <div class="step-card">
             <div class="step-num">02</div>
             <h3>Check Rupee Pricing</h3>
-            <p>Choose 7-day, 14-day, or 30-day rental terms with transparent Rupee tariffs and deposit.</p>
+            <p>Choose 7-day, 14-day, or 30-day rental terms with transparent Rupee tariffs and deposit &lt; 25%.</p>
           </div>
           <div class="step-card">
             <div class="step-num">03</div>
@@ -206,7 +258,7 @@
       <div class="salon-quote-banner">
         <div class="quote-content">
           <blockquote class="quote-text">
-            &ldquo;The Reading Lounge has made reading bestsellers so accessible and joyful. The books arrive in mint condition, wrapped with care.&rdquo;
+            &ldquo;The Reading Lounge has made reading bestsellers so accessible. The low deposit policy under 25% makes renting worry-free!&rdquo;
           </blockquote>
           <div class="quote-author">
             &mdash; Ananya Sharma, <em>Member &amp; Literature Enthusiast</em>
@@ -292,9 +344,9 @@
     <section class="tab-pane" id="tab-pricelist">
       <div class="page-header">
         <div class="page-header-content">
-          <span class="section-tag">TRANSPARENT TARIFFS IN ₹ (INR)</span>
+          <span class="section-tag">TRANSPARENT TARIFFS IN ₹ (DEPOSIT &lt; 25%)</span>
           <h1 class="page-title">Book Price List &amp; Rental Calculator</h1>
-          <p class="page-subtitle">Transparent rental rates in Indian Rupees across tiers, refundable security deposits, and live cost calculation.</p>
+          <p class="page-subtitle">Transparent rental rates in Indian Rupees across tiers with minimal security deposit (&lt;25% of book value).</p>
         </div>
       </div>
 
@@ -311,7 +363,7 @@
             <ul class="tier-features">
               <li>&check; Daily Rate: <strong>₹8/day</strong></li>
               <li>&check; Monthly Rate: <strong>₹149/mo</strong></li>
-              <li>&check; Refundable Security Deposit: <strong>₹299</strong></li>
+              <li>&check; Refundable Security Deposit: <strong>₹49</strong> <small class="text-muted">(&lt;25%)</small></li>
               <li>&check; Protective Archival Sleeve</li>
             </ul>
             <button class="btn btn-outline" onclick="app.selectTierForCalc('standard')">Calculate Quote</button>
@@ -328,7 +380,7 @@
             <ul class="tier-features">
               <li>&check; Daily Rate: <strong>₹12/day</strong></li>
               <li>&check; Monthly Rate: <strong>₹249/mo</strong></li>
-              <li>&check; Refundable Security Deposit: <strong>₹499</strong></li>
+              <li>&check; Refundable Security Deposit: <strong>₹99</strong> <small class="text-muted">(&lt;25%)</small></li>
               <li>&check; Hardcover Preservation Box</li>
             </ul>
             <button class="btn btn-primary" onclick="app.selectTierForCalc('scholar')">Calculate Quote</button>
@@ -344,7 +396,7 @@
             <ul class="tier-features">
               <li>&check; Daily Rate: <strong>₹24/day</strong></li>
               <li>&check; Monthly Rate: <strong>₹499/mo</strong></li>
-              <li>&check; Refundable Security Deposit: <strong>₹899</strong></li>
+              <li>&check; Refundable Security Deposit: <strong>₹199</strong> <small class="text-muted">(&lt;25%)</small></li>
               <li>&check; Archival Leather Box &amp; Seal</li>
             </ul>
             <button class="btn btn-outline" onclick="app.selectTierForCalc('collector')">Calculate Quote</button>
@@ -411,15 +463,15 @@
                   <span class="summary-price" id="summary-delivery-price">₹49</span>
                 </div>
                 <div class="summary-line highlight-line">
-                  <span>Refundable Security Deposit (100% Returnable)</span>
-                  <span class="summary-price" id="summary-deposit-price">₹499</span>
+                  <span>Refundable Security Deposit (&lt;25%)</span>
+                  <span class="summary-price" id="summary-deposit-price">₹99</span>
                 </div>
                 <hr class="summary-divider">
                 <div class="summary-line total-line">
                   <span>Total Payable Initial Amount</span>
-                  <span class="summary-total" id="summary-total-price">₹706</span>
+                  <span class="summary-total" id="summary-total-price">₹306</span>
                 </div>
-                <p class="deposit-note">* Note: Security deposit of <span id="summary-deposit-note">₹499</span> is automatically refunded upon returning the book in original condition.</p>
+                <p class="deposit-note">* Note: Security deposit of <span id="summary-deposit-note">₹99</span> is automatically refunded upon returning the book in original condition.</p>
                 <button class="btn btn-primary btn-full" onclick="app.proceedFromCalcToForm()">
                   Proceed to Renter Form with This Quote &rarr;
                 </button>
@@ -452,7 +504,7 @@
                 <th>Daily Rate</th>
                 <th>Weekly Rate</th>
                 <th>Monthly Rate</th>
-                <th>Refundable Deposit</th>
+                <th>Refundable Deposit (&lt;25%)</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -645,12 +697,12 @@
                   <span id="form-summary-delivery">₹49</span>
                 </div>
                 <div class="calc-row highlight">
-                  <span>Refundable Security Deposit:</span>
-                  <span id="form-summary-deposit">₹499</span>
+                  <span>Refundable Security Deposit (&lt;25%):</span>
+                  <span id="form-summary-deposit">₹99</span>
                 </div>
                 <div class="calc-row total">
                   <span>Grand Total Payable Amount:</span>
-                  <span id="form-summary-grandtotal">₹706</span>
+                  <span id="form-summary-grandtotal">₹306</span>
                 </div>
               </div>
             </div>
@@ -660,7 +712,7 @@
                 <input type="checkbox" id="terms-agree" required>
                 <span class="checkmark"></span>
                 <span class="checkbox-text">
-                  I agree to <strong>The Reading Lounge Care Agreement</strong>. I understand the security deposit of <span id="agree-deposit-amount">₹499</span> will be fully refunded upon book return in original condition.
+                  I agree to <strong>The Reading Lounge Care Agreement</strong>. I understand the nominal deposit of <span id="agree-deposit-amount">₹99</span> (&lt;25%) will be fully refunded upon book return in original condition.
                 </span>
               </label>
             </div>
@@ -795,7 +847,7 @@
               <span class="faq-icon">+</span>
             </button>
             <div class="faq-answer">
-              <p>Security deposits are based on the book tier (Standard: ₹299, Bestseller: ₹499, Collector: ₹899). Deposits are held as a temporary authorization and 100% refunded to your UPI / bank account within 24 hours of returning the book.</p>
+              <p>Security deposits are strictly kept under 25% of book retail value (Standard: ₹49, Bestseller: ₹99, Collector: ₹199). Deposits are 100% refunded to your UPI / bank account within 24 hours of returning the book.</p>
             </div>
           </div>
 
@@ -890,8 +942,8 @@
   <footer class="main-footer">
     <div class="footer-container">
       <div class="footer-brand">
-        <div class="footer-logo">THE READING LOUNGE</div>
-        <p>India's premier book rental salon offering curated bestsellers, fiction, and classics delivered to your doorstep in Indian Rupees.</p>
+        <img src="assets/logo.png" alt="The Reading Lounge" class="footer-logo-img">
+        <p>India's premier book rental salon offering curated bestsellers, fiction, and classics delivered to your doorstep with low security deposits (&lt;25%).</p>
         <p class="copyright">&copy; 2026 The Reading Lounge. All rights reserved.</p>
       </div>
 
