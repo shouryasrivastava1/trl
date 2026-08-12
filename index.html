@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Reading Lounge | Curated Volume Rentals &amp; Book Atelier</title>
+  <meta name="description" content="A boutique book rental atelier offering curated bestsellers, classics, and rare editions in Indian Rupees (₹) with doorstep delivery.">
+  
+  <!-- Fonts: Cormorant Garamond for serif headings, Plus Jakarta Sans for clean UI -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Top Announcement Bar -->
+  <div class="top-announcement" id="top-announcement">
+    <div class="announcement-content">
+      <span>📖 <strong>The Reading Lounge:</strong> Reserve any 2 volumes this month &amp; get free doorstep delivery with code <em>LOUNGEIN</em></span>
+      <button class="close-announcement" aria-label="Close announcement" onclick="document.getElementById('top-announcement').style.display='none'">&times;</button>
+    </div>
+  </div>
+
+  <!-- Header & Navigation -->
+  <header class="main-header" id="main-header">
+    <div class="header-container">
+      <div class="brand-logo" onclick="app.navigateTo('home')">
+        <div class="logo-seal">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path>
+            <path d="M6 6h10"></path>
+            <path d="M6 10h8"></path>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">THE READING LOUNGE</span>
+          <span class="brand-tagline">CURATED BOOK RENTAL SALON</span>
+        </div>
+      </div>
+
+      <!-- Main Navigation Tabs -->
+      <nav class="main-nav" aria-label="Main Navigation">
+        <ul class="nav-tabs" id="nav-tabs">
+          <li><button class="nav-btn active" data-tab="home" onclick="app.navigateTo('home')">Home</button></li>
+          <li><button class="nav-btn" data-tab="genre" onclick="app.navigateTo('genre')">Genre</button></li>
+          <li><button class="nav-btn" data-tab="pricelist" onclick="app.navigateTo('pricelist')">Book Price List</button></li>
+          <li><button class="nav-btn" data-tab="renterform" onclick="app.navigateTo('renterform')">Rentor Details Form</button></li>
+          <li><button class="nav-btn" data-tab="contact" onclick="app.navigateTo('contact')">Contact</button></li>
+        </ul>
+      </nav>
+
+      <!-- Utility Actions -->
+      <div class="header-actions">
+        <button class="bag-btn" id="bag-btn" onclick="app.toggleBasketDrawer()" title="View Selected Rentals">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
+          <span class="bag-count" id="bag-count">0</span>
+        </button>
+
+        <button class="mobile-menu-toggle" onclick="app.toggleMobileMenu()" aria-label="Toggle Navigation">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container with Dynamic Tabs -->
+  <main class="main-content">
+
+    <!-- TAB 1: HOME TAB -->
+    <section class="tab-pane active" id="tab-home">
+      <!-- Hero Section -->
+      <div class="hero-section">
+        <div class="hero-backdrop"></div>
+        <div class="hero-content">
+          <div class="hero-badge">The Reading Lounge &bull; Premium Book Rentals in ₹</div>
+          <h1 class="hero-title">Rent Popular Bestsellers &amp; Classics on Flexible Terms.</h1>
+          <p class="hero-subtitle">Access books like <em>The 5 AM Club</em>, <em>Harry Potter</em>, <em>The Silent Patient</em>, and <em>Before the Coffee Gets Cold</em> with doorstep delivery across India. Affordable rates starting at just ₹49/week.</p>
+
+          <div class="hero-actions">
+            <button class="btn btn-primary" onclick="app.navigateTo('genre')">
+              <span>Explore Catalog by Genre</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </button>
+            <button class="btn btn-secondary" onclick="app.navigateTo('pricelist')">
+              <span>View Price List (₹ INR)</span>
+            </button>
+          </div>
+
+          <!-- Hero Search Box -->
+          <div class="hero-search-box">
+            <div class="search-input-wrap">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <input type="text" id="hero-search-input" placeholder="Search by title (e.g. Harry Potter, 5 AM Club, Silent Patient)..." onkeydown="if(event.key==='Enter') app.searchFromHero()">
+            </div>
+            <button class="search-btn" onclick="app.searchFromHero()">Find Volume</button>
+          </div>
+        </div>
+
+        <div class="hero-card-preview">
+          <div class="featured-spine-stack">
+            <div class="spine-item spine-1">
+              <span class="spine-genre">Self-Mastery</span>
+              <span class="spine-title">The 5 AM Club — Robin Sharma</span>
+            </div>
+            <div class="spine-item spine-2">
+              <span class="spine-genre">Fantasy Classic</span>
+              <span class="spine-title">Harry Potter — J.K. Rowling</span>
+            </div>
+            <div class="spine-item spine-3">
+              <span class="spine-genre">Thriller</span>
+              <span class="spine-title">The Silent Patient — A. Michaelides</span>
+            </div>
+          </div>
+          <div class="broker-stamp">
+            <span class="stamp-circle">VERIFIED</span>
+            <span class="stamp-text">Pristine Condition &bull; Preservation Grade A+</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Highlights Bar -->
+      <div class="features-bar">
+        <div class="feature-item">
+          <div class="feature-icon">📚</div>
+          <div class="feature-text">
+            <h3>Bestseller Collection</h3>
+            <p>Featuring top titles like <em>5 AM Club</em>, <em>Harry Potter</em>, <em>The Silent Patient</em>, &amp; more.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">🚚</div>
+          <div class="feature-text">
+            <h3>Doorstep Delivery</h3>
+            <p>Fast courier delivery to your address with prepaid return packaging included.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">₹</div>
+          <div class="feature-text">
+            <h3>Affordable Rupee Rates</h3>
+            <p>Weekly rentals starting from ₹49/week. 100% refundable security deposit.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">✨</div>
+          <div class="feature-text">
+            <h3>Rent-to-Own Option</h3>
+            <p>Loved a book? 100% of your rental payment can be credited toward buying it!</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Featured Books Spotlight -->
+      <div class="section-container">
+        <div class="section-header">
+          <div>
+            <span class="section-tag">POPULAR TITLES</span>
+            <h2 class="section-title">Featured Lounge Books</h2>
+          </div>
+          <button class="link-btn" onclick="app.navigateTo('genre')">View All Volumes &rarr;</button>
+        </div>
+
+        <div class="book-grid" id="home-featured-grid">
+          <!-- Populated dynamically by app.js -->
+        </div>
+      </div>
+
+      <!-- How Renting Works -->
+      <div class="workflow-section">
+        <div class="section-header text-center">
+          <span class="section-tag">SIMPLE 4-STEP RENTAL</span>
+          <h2 class="section-title">How Book Renting Works at The Reading Lounge</h2>
+        </div>
+
+        <div class="steps-grid">
+          <div class="step-card">
+            <div class="step-num">01</div>
+            <h3>Pick Your Favorite Book</h3>
+            <p>Browse from our top picks including <em>The 5 AM Club</em>, <em>Harry Potter</em>, and <em>The Silent Patient</em>.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-num">02</div>
+            <h3>Check Rupee Pricing</h3>
+            <p>Choose 7-day, 14-day, or 30-day rental terms with transparent Rupee tariffs and deposit.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-num">03</div>
+            <h3>Fill Rentor Details Form</h3>
+            <p>Submit your address and verification details for swift dispatch.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-num">04</div>
+            <h3>Enjoy &amp; Easy Return</h3>
+            <p>Read at leisure. Return via prepaid courier pouch or extend your rental term.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Salon Quote -->
+      <div class="salon-quote-banner">
+        <div class="quote-content">
+          <blockquote class="quote-text">
+            &ldquo;The Reading Lounge has made reading bestsellers so accessible and joyful. The books arrive in mint condition, wrapped with care.&rdquo;
+          </blockquote>
+          <div class="quote-author">
+            &mdash; Ananya Sharma, <em>Member &amp; Literature Enthusiast</em>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: GENRE TAB -->
+    <section class="tab-pane" id="tab-genre">
+      <div class="page-header">
+        <div class="page-header-content">
+          <span class="section-tag">CATALOGUE &amp; INVENTORY</span>
+          <h1 class="page-title">Browse Catalog by Genre</h1>
+          <p class="page-subtitle">Find bestsellers, mystery thrillers, fiction, and philosophy titles available for rent in Indian Rupees (₹).</p>
+        </div>
+      </div>
+
+      <div class="catalog-controls-container">
+        <!-- Genre Filter Buttons -->
+        <div class="genre-pills" id="genre-pills-list">
+          <button class="genre-pill active" data-genre="all" onclick="app.filterGenre('all')">All Books</button>
+          <button class="genre-pill" data-genre="bestsellers" onclick="app.filterGenre('bestsellers')">Popular Bestsellers</button>
+          <button class="genre-pill" data-genre="fiction" onclick="app.filterGenre('fiction')">Fiction &amp; Fantasy</button>
+          <button class="genre-pill" data-genre="thriller" onclick="app.filterGenre('thriller')">Mystery &amp; Thriller</button>
+          <button class="genre-pill" data-genre="selfhelp" onclick="app.filterGenre('selfhelp')">Self-Improvement</button>
+          <button class="genre-pill" data-genre="philosophy" onclick="app.filterGenre('philosophy')">Philosophy &amp; Thought</button>
+          <button class="genre-pill" data-genre="classics" onclick="app.filterGenre('classics')">Classics &amp; Literature</button>
+        </div>
+
+        <!-- Filter and Search Toolbar -->
+        <div class="catalog-toolbar">
+          <div class="catalog-search">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" id="genre-search-input" placeholder="Search title or author (e.g., Harry Potter, Silent Patient)..." oninput="app.renderCatalog()">
+          </div>
+
+          <div class="catalog-selects">
+            <div class="select-wrap">
+              <label for="condition-filter">Condition:</label>
+              <select id="condition-filter" onchange="app.renderCatalog()">
+                <option value="all">All Conditions</option>
+                <option value="Mint (A+)">Mint (A+)</option>
+                <option value="Fine (A)">Fine (A)</option>
+                <option value="Very Good (B+)">Very Good (B+)</option>
+              </select>
+            </div>
+
+            <div class="select-wrap">
+              <label for="sort-by">Sort By:</label>
+              <select id="sort-by" onchange="app.renderCatalog()">
+                <option value="featured">Featured</option>
+                <option value="price-asc">Rental Rate: Low to High</option>
+                <option value="price-desc">Rental Rate: High to Low</option>
+                <option value="rating">Highest Rated</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Catalog Book Grid -->
+      <div class="section-container">
+        <div class="catalog-stats-bar">
+          <span id="catalog-count-text">Showing 0 volumes</span>
+          <span class="active-filter-badge" id="active-filter-badge">Filter: All Books</span>
+        </div>
+
+        <div class="book-grid" id="genre-catalog-grid">
+          <!-- Populated dynamically by app.js -->
+        </div>
+
+        <div class="empty-state" id="catalog-empty-state" style="display: none;">
+          <div class="empty-icon">📚</div>
+          <h3>No Books Matched Your Criteria</h3>
+          <p>Try adjusting your search terms or genre filter to locate available titles.</p>
+          <button class="btn btn-secondary" onclick="app.resetCatalogFilters()">Reset All Filters</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: BOOK PRICE LIST TAB -->
+    <section class="tab-pane" id="tab-pricelist">
+      <div class="page-header">
+        <div class="page-header-content">
+          <span class="section-tag">TRANSPARENT TARIFFS IN ₹ (INR)</span>
+          <h1 class="page-title">Book Price List &amp; Rental Calculator</h1>
+          <p class="page-subtitle">Transparent rental rates in Indian Rupees across tiers, refundable security deposits, and live cost calculation.</p>
+        </div>
+      </div>
+
+      <!-- Pricing Tier Overview Cards -->
+      <div class="section-container">
+        <div class="pricing-tiers-grid">
+          <div class="tier-card">
+            <div class="tier-badge">STANDARD TIER</div>
+            <h3 class="tier-title">Popular Paperbacks</h3>
+            <div class="tier-price">
+              <span class="currency">₹</span><span class="amount">49</span><span class="period">/ week</span>
+            </div>
+            <p class="tier-desc">Popular fiction, general reading, and contemporary titles.</p>
+            <ul class="tier-features">
+              <li>&check; Daily Rate: <strong>₹8/day</strong></li>
+              <li>&check; Monthly Rate: <strong>₹149/mo</strong></li>
+              <li>&check; Refundable Security Deposit: <strong>₹299</strong></li>
+              <li>&check; Protective Archival Sleeve</li>
+            </ul>
+            <button class="btn btn-outline" onclick="app.selectTierForCalc('standard')">Calculate Quote</button>
+          </div>
+
+          <div class="tier-card featured-tier">
+            <div class="tier-ribbon">MOST POPULAR</div>
+            <div class="tier-badge">BESTSELLER &amp; HARDCOVER TIER</div>
+            <h3 class="tier-title">Bestsellers &amp; Classics</h3>
+            <div class="tier-price">
+              <span class="currency">₹</span><span class="amount">79</span><span class="period">/ week</span>
+            </div>
+            <p class="tier-desc">Top titles like <em>The 5 AM Club</em>, <em>The Silent Patient</em>, <em>Before the Coffee Gets Cold</em>, and <em>Atomic Habits</em>.</p>
+            <ul class="tier-features">
+              <li>&check; Daily Rate: <strong>₹12/day</strong></li>
+              <li>&check; Monthly Rate: <strong>₹249/mo</strong></li>
+              <li>&check; Refundable Security Deposit: <strong>₹499</strong></li>
+              <li>&check; Hardcover Preservation Box</li>
+            </ul>
+            <button class="btn btn-primary" onclick="app.selectTierForCalc('scholar')">Calculate Quote</button>
+          </div>
+
+          <div class="tier-card">
+            <div class="tier-badge">COLLECTOR &amp; DELUXE TIER</div>
+            <h3 class="tier-title">Collector Hardcovers &amp; Sets</h3>
+            <div class="tier-price">
+              <span class="currency">₹</span><span class="amount">149</span><span class="period">/ week</span>
+            </div>
+            <p class="tier-desc">Deluxe editions like <em>Harry Potter Collector Edition</em> and rare illustrated hardcovers.</p>
+            <ul class="tier-features">
+              <li>&check; Daily Rate: <strong>₹24/day</strong></li>
+              <li>&check; Monthly Rate: <strong>₹499/mo</strong></li>
+              <li>&check; Refundable Security Deposit: <strong>₹899</strong></li>
+              <li>&check; Archival Leather Box &amp; Seal</li>
+            </ul>
+            <button class="btn btn-outline" onclick="app.selectTierForCalc('collector')">Calculate Quote</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Calculator Tool -->
+      <div class="section-container">
+        <div class="calculator-card">
+          <div class="calculator-header">
+            <div>
+              <span class="section-tag">INTERACTIVE ESTIMATOR IN ₹</span>
+              <h2>Calculate Your Custom Rental Quote (INR)</h2>
+            </div>
+            <div class="calc-icon">🧮</div>
+          </div>
+
+          <div class="calculator-body">
+            <div class="calc-inputs-col">
+              <div class="form-group">
+                <label for="calc-book-select">Select Specific Book or Tier:</label>
+                <select id="calc-book-select" onchange="app.updateCalculator()">
+                  <option value="tier-standard">Standard Tier (₹49/wk)</option>
+                  <option value="tier-scholar" selected>Bestseller Tier (₹79/wk)</option>
+                  <option value="tier-collector">Collector Tier (₹149/wk)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <div class="label-row">
+                  <label for="calc-duration">Rental Duration:</label>
+                  <span class="range-val" id="calc-duration-val">14 Days (2 Weeks)</span>
+                </div>
+                <input type="range" id="calc-duration" min="3" max="90" value="14" step="1" oninput="app.updateCalculator()">
+                <div class="range-marks">
+                  <span>3 Days</span>
+                  <span>7 Days</span>
+                  <span>14 Days</span>
+                  <span>30 Days</span>
+                  <span>90 Days</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="calc-delivery">Delivery Method:</label>
+                <select id="calc-delivery" onchange="app.updateCalculator()">
+                  <option value="salon">Salon Pickup (Connaught Place / Bloomsbury) — Free</option>
+                  <option value="standard" selected>Standard Doorstep Delivery — ₹49</option>
+                  <option value="express">Express Same-Day Courier — ₹99</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="calc-summary-col">
+              <div class="summary-box">
+                <h3 class="summary-title">Quote Summary (₹ INR)</h3>
+                <div class="summary-line">
+                  <span>Base Rental Fee (<span id="summary-days-text">14 days</span>)</span>
+                  <span class="summary-price" id="summary-base-price">₹158</span>
+                </div>
+                <div class="summary-line">
+                  <span>Delivery Fee</span>
+                  <span class="summary-price" id="summary-delivery-price">₹49</span>
+                </div>
+                <div class="summary-line highlight-line">
+                  <span>Refundable Security Deposit (100% Returnable)</span>
+                  <span class="summary-price" id="summary-deposit-price">₹499</span>
+                </div>
+                <hr class="summary-divider">
+                <div class="summary-line total-line">
+                  <span>Total Payable Initial Amount</span>
+                  <span class="summary-total" id="summary-total-price">₹706</span>
+                </div>
+                <p class="deposit-note">* Note: Security deposit of <span id="summary-deposit-note">₹499</span> is automatically refunded upon returning the book in original condition.</p>
+                <button class="btn btn-primary btn-full" onclick="app.proceedFromCalcToForm()">
+                  Proceed to Renter Form with This Quote &rarr;
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Master Book Price Table -->
+      <div class="section-container">
+        <div class="section-header">
+          <div>
+            <span class="section-tag">MASTER PRICE REGISTRY (₹)</span>
+            <h2 class="section-title">Complete Inventory Price List in Rupees</h2>
+          </div>
+          <div class="table-search-wrap">
+            <input type="text" id="price-table-search" placeholder="Search price list (e.g. 5 AM, Harry Potter)..." oninput="app.renderPriceTable()">
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="master-price-table">
+            <thead>
+              <tr>
+                <th>Book ID</th>
+                <th>Title &amp; Author</th>
+                <th>Genre</th>
+                <th>Classification Tier</th>
+                <th>Daily Rate</th>
+                <th>Weekly Rate</th>
+                <th>Monthly Rate</th>
+                <th>Refundable Deposit</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="master-price-tbody">
+              <!-- Populated dynamically by app.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: RENTOR DETAILS FORM TAB -->
+    <section class="tab-pane" id="tab-renterform">
+      <div class="page-header">
+        <div class="page-header-content">
+          <span class="section-tag">REGISTRATION &amp; DISPATCH REQUEST</span>
+          <h1 class="page-title">Renter Details &amp; Reservation Form</h1>
+          <p class="page-subtitle">Submit your renter profile details to request volume dispatch in Indian Rupees (₹).</p>
+        </div>
+      </div>
+
+      <div class="form-wrapper-container">
+        <!-- Form Progress Tracker Bar -->
+        <div class="form-steps-indicator">
+          <div class="form-step-item active" id="step-ind-1">
+            <span class="step-circle">1</span>
+            <span class="step-label">Renter Profile</span>
+          </div>
+          <div class="form-step-line"></div>
+          <div class="form-step-item" id="step-ind-2">
+            <span class="step-circle">2</span>
+            <span class="step-label">Book &amp; Term</span>
+          </div>
+          <div class="form-step-line"></div>
+          <div class="form-step-item" id="step-ind-3">
+            <span class="step-circle">3</span>
+            <span class="step-label">Delivery &amp; Confirm</span>
+          </div>
+        </div>
+
+        <form id="renter-registration-form" class="renter-form" onsubmit="app.handleFormSubmission(event)">
+
+          <!-- SECTION 1: PERSONAL DETAILS -->
+          <div class="form-card-section" id="form-sec-1">
+            <div class="form-sec-title">
+              <span class="sec-num">01</span>
+              <div>
+                <h2>Renter Profile &amp; Identity Verification</h2>
+                <p>Provide your details for member verification and dispatch.</p>
+              </div>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label for="renter-firstname">First Name <span class="req">*</span></label>
+                <input type="text" id="renter-firstname" required placeholder="e.g. Aarav">
+              </div>
+              <div class="form-group">
+                <label for="renter-lastname">Last Name <span class="req">*</span></label>
+                <input type="text" id="renter-lastname" required placeholder="e.g. Sharma">
+              </div>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label for="renter-email">Email Address <span class="req">*</span></label>
+                <input type="email" id="renter-email" required placeholder="aarav.sharma@example.com">
+              </div>
+              <div class="form-group">
+                <label for="renter-phone">Phone Number <span class="req">*</span></label>
+                <input type="tel" id="renter-phone" required placeholder="+91 98765 43210">
+              </div>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label for="renter-idtype">Verification Identity Type <span class="req">*</span></label>
+                <select id="renter-idtype" required>
+                  <option value="Aadhaar Card">Aadhaar Card</option>
+                  <option value="Driver's License">Driver's License</option>
+                  <option value="Passport">Passport</option>
+                  <option value="Student / Faculty Card">Student / Faculty Card</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="renter-idnum">ID Document / Aadhaar Number <span class="req">*</span></label>
+                <input type="text" id="renter-idnum" required placeholder="e.g. XXXX-XXXX-9842">
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION 2: VOLUME SELECTION & RENTAL DURATION -->
+          <div class="form-card-section" id="form-sec-2">
+            <div class="form-sec-title">
+              <span class="sec-num">02</span>
+              <div>
+                <h2>Book Selection &amp; Rental Term</h2>
+                <p>Choose the book you wish to rent and specify duration.</p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="form-book-select">Select Book to Rent <span class="req">*</span></label>
+              <select id="form-book-select" required onchange="app.updateFormPricePreview()">
+                <option value="" disabled selected>-- Select a Book from Inventory --</option>
+                <!-- Populated dynamically by app.js -->
+              </select>
+            </div>
+
+            <div class="selected-book-preview-card" id="form-book-preview" style="display: none;">
+              <!-- Dynamic preview of chosen book -->
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label for="renter-startdate">Rental Start Date <span class="req">*</span></label>
+                <input type="date" id="renter-startdate" required onchange="app.updateFormPricePreview()">
+              </div>
+              <div class="form-group">
+                <label for="renter-duration">Rental Duration <span class="req">*</span></label>
+                <select id="renter-duration" required onchange="app.updateFormPricePreview()">
+                  <option value="7">7 Days (1 Week)</option>
+                  <option value="14" selected>14 Days (2 Weeks)</option>
+                  <option value="30">30 Days (1 Month - 10% Discount)</option>
+                  <option value="60">60 Days (2 Months - 15% Discount)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION 3: DELIVERY & FINAL SUMMARY -->
+          <div class="form-card-section" id="form-sec-3">
+            <div class="form-sec-title">
+              <span class="sec-num">03</span>
+              <div>
+                <h2>Dispatch Address &amp; Delivery Method</h2>
+                <p>Specify delivery location across India or salon pickup.</p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="renter-street">Flat / House No. &amp; Street Address <span class="req">*</span></label>
+              <input type="text" id="renter-street" required placeholder="Flat 402, Royal Residency, M.G. Road">
+            </div>
+
+            <div class="form-grid-3">
+              <div class="form-group">
+                <label for="renter-city">City <span class="req">*</span></label>
+                <input type="text" id="renter-city" required placeholder="New Delhi / Mumbai / Bengaluru">
+              </div>
+              <div class="form-group">
+                <label for="renter-state">State <span class="req">*</span></label>
+                <input type="text" id="renter-state" required placeholder="Delhi / Maharashtra / Karnataka">
+              </div>
+              <div class="form-group">
+                <label for="renter-zip">Pincode <span class="req">*</span></label>
+                <input type="text" id="renter-zip" required placeholder="110001 / 400001">
+              </div>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label for="renter-delivery-method">Delivery Option <span class="req">*</span></label>
+                <select id="renter-delivery-method" required onchange="app.updateFormPricePreview()">
+                  <option value="salon">Salon Pickup (Connaught Place) — Free</option>
+                  <option value="standard" selected>Standard Doorstep Delivery (₹49)</option>
+                  <option value="express">Express Same-Day Courier (₹99)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="renter-instructions">Special Instructions (Optional)</label>
+                <input type="text" id="renter-instructions" placeholder="e.g. Deliver before 5 PM, ribbon bookmark requested">
+              </div>
+            </div>
+
+            <!-- Dynamic Form Financial Summary Box -->
+            <div class="form-financial-summary" id="form-financial-summary">
+              <h3>Rental Summary Calculation (₹ INR)</h3>
+              <div class="calc-breakdown-table">
+                <div class="calc-row">
+                  <span>Selected Book Rate:</span>
+                  <span id="form-summary-rate">₹79 / week</span>
+                </div>
+                <div class="calc-row">
+                  <span>Duration (<span id="form-summary-days">14 days</span>):</span>
+                  <span id="form-summary-rental-cost">₹158</span>
+                </div>
+                <div class="calc-row">
+                  <span>Delivery Fee:</span>
+                  <span id="form-summary-delivery">₹49</span>
+                </div>
+                <div class="calc-row highlight">
+                  <span>Refundable Security Deposit:</span>
+                  <span id="form-summary-deposit">₹499</span>
+                </div>
+                <div class="calc-row total">
+                  <span>Grand Total Payable Amount:</span>
+                  <span id="form-summary-grandtotal">₹706</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="terms-checkbox-wrap">
+              <label class="checkbox-container">
+                <input type="checkbox" id="terms-agree" required>
+                <span class="checkmark"></span>
+                <span class="checkbox-text">
+                  I agree to <strong>The Reading Lounge Care Agreement</strong>. I understand the security deposit of <span id="agree-deposit-amount">₹499</span> will be fully refunded upon book return in original condition.
+                </span>
+              </label>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="btn btn-secondary" onclick="app.resetRenterForm()">Clear Form</button>
+              <button type="submit" class="btn btn-primary btn-large">
+                <span>Submit Rental Request &amp; Generate Voucher</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </section>
+
+    <!-- TAB 5: CONTACT TAB -->
+    <section class="tab-pane" id="tab-contact">
+      <div class="page-header">
+        <div class="page-header-content">
+          <span class="section-tag">CONCIERGE &amp; SALON LOCATIONS</span>
+          <h1 class="page-title">Contact The Reading Lounge</h1>
+          <p class="page-subtitle">Visit our physical reading salon, request custom book sourcing, or contact our support team.</p>
+        </div>
+      </div>
+
+      <div class="section-container">
+        <div class="contact-grid">
+
+          <!-- Contact Information & Salon Details -->
+          <div class="contact-info-card">
+            <div class="info-badge">SALON HEADQUARTERS</div>
+            <h2>Visit or Connect With Us</h2>
+            <p>Our reading concierge is available to assist with book reservations, reading lists, and group rentals.</p>
+
+            <div class="info-list">
+              <div class="info-item">
+                <div class="info-icon">📍</div>
+                <div>
+                  <h4>Reading Lounge Salon</h4>
+                  <p>14 Regal Building, Inner Circle, Connaught Place<br>New Delhi, 110001, India</p>
+                </div>
+              </div>
+
+              <div class="info-item">
+                <div class="info-icon">📞</div>
+                <div>
+                  <h4>Direct Telephones</h4>
+                  <p>Helpline: +91 98765 43210<br>Salon Desk: 011-2341-8900</p>
+                </div>
+              </div>
+
+              <div class="info-item">
+                <div class="info-icon">✉️</div>
+                <div>
+                  <h4>Electronic Mail</h4>
+                  <p>Inquiries: hello@readinglounge.in<br>Book Sourcing: concierge@readinglounge.in</p>
+                </div>
+              </div>
+
+              <div class="info-item">
+                <div class="info-icon">🕒</div>
+                <div>
+                  <h4>Salon Hours</h4>
+                  <p>Monday &ndash; Sunday: 10:00 AM &ndash; 8:00 PM</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Virtual Salon Visual Badge -->
+            <div class="salon-visual-badge">
+              <div class="visual-badge-text">
+                <strong>Private Reading Corner &amp; Coffee Salon</strong>
+                <span>Visit our Connaught Place lounge for coffee and quiet reading.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contact / Custom Sourcing Form -->
+          <div class="contact-form-card">
+            <h2>Send Concierge Inquiry</h2>
+            <p>Looking for a specific book title or edition not in our catalog? Drop us a message.</p>
+
+            <form id="contact-form" onsubmit="app.handleContactSubmit(event)">
+              <div class="form-group">
+                <label for="contact-name">Your Full Name <span class="req">*</span></label>
+                <input type="text" id="contact-name" required placeholder="e.g. Priya Patel">
+              </div>
+
+              <div class="form-group">
+                <label for="contact-email">Your Email Address <span class="req">*</span></label>
+                <input type="email" id="contact-email" required placeholder="priya@example.com">
+              </div>
+
+              <div class="form-group">
+                <label for="contact-subject">Inquiry Subject <span class="req">*</span></label>
+                <select id="contact-subject" required>
+                  <option value="General Query">General Inquiry</option>
+                  <option value="Book Request">Custom Book Sourcing Request</option>
+                  <option value="Reading Club">Book Club / Bulk Rental</option>
+                  <option value="Delivery Status">Delivery / Return Query</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="contact-message">Message Details <span class="req">*</span></label>
+                <textarea id="contact-message" rows="5" required placeholder="Specify title or query..."></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-full">
+                <span>Send Message to Concierge</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+              </button>
+            </form>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <div class="section-container margin-top-lg">
+        <div class="section-header text-center">
+          <span class="section-tag">FREQUENT QUESTIONS</span>
+          <h2 class="section-title">Frequently Asked Questions</h2>
+        </div>
+
+        <div class="faq-accordion" id="faq-accordion">
+          <div class="faq-item">
+            <button class="faq-question" onclick="app.toggleFaq(this)">
+              <span>How are security deposits in Rupees calculated and returned?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>Security deposits are based on the book tier (Standard: ₹299, Bestseller: ₹499, Collector: ₹899). Deposits are held as a temporary authorization and 100% refunded to your UPI / bank account within 24 hours of returning the book.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" onclick="app.toggleFaq(this)">
+              <span>Can I rent popular books like Harry Potter and 5 AM Club together?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>Yes! You can add multiple titles to your Rental Basket and request dispatch in a single doorstep package.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" onclick="app.toggleFaq(this)">
+              <span>What if I want to purchase the book after reading it?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>We offer a 100% Rent-to-Own credit! Your rental fees will be credited toward buying the book permanently.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" onclick="app.toggleFaq(this)">
+              <span>How does doorstep pickup work across India?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>Every delivered package includes a return pouch and prepaid return shipping label. Simply place the book inside, seal it, and our courier agent will pick it up from your address.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Quick View Book Modal -->
+  <div class="modal-backdrop" id="book-modal-backdrop" onclick="app.closeBookModal(event)">
+    <div class="modal-card" id="book-modal-card">
+      <button class="modal-close" onclick="app.closeBookModal()">&times;</button>
+      <div class="modal-body" id="book-modal-body">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Digital Receipt Pass Modal -->
+  <div class="modal-backdrop" id="receipt-modal-backdrop">
+    <div class="modal-card receipt-modal-card" id="receipt-modal-card">
+      <button class="modal-close" onclick="app.closeReceiptModal()">&times;</button>
+      <div class="receipt-header">
+        <div class="receipt-seal">📖</div>
+        <h2>THE READING LOUNGE</h2>
+        <p class="receipt-subtitle">Official Book Rental Voucher &amp; Pass (₹ INR)</p>
+      </div>
+
+      <div class="receipt-body" id="receipt-modal-body">
+        <!-- Rendered dynamically upon submission -->
+      </div>
+
+      <div class="receipt-actions">
+        <button class="btn btn-outline" onclick="window.print()">Print Voucher Pass</button>
+        <button class="btn btn-primary" onclick="app.closeReceiptModal()">Done &amp; Return to Home</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Selected Rentals Drawer / Basket -->
+  <div class="drawer-backdrop" id="drawer-backdrop" onclick="app.toggleBasketDrawer()"></div>
+  <aside class="basket-drawer" id="basket-drawer">
+    <div class="drawer-header">
+      <h3>Your Rental Basket</h3>
+      <button class="drawer-close" onclick="app.toggleBasketDrawer()">&times;</button>
+    </div>
+    <div class="drawer-body" id="drawer-body">
+      <!-- Populated dynamically by app.js -->
+    </div>
+    <div class="drawer-footer" id="drawer-footer">
+      <div class="drawer-subtotal">
+        <span>Estimated Total (Incl. Deposit):</span>
+        <strong id="drawer-total-val">₹0</strong>
+      </div>
+      <button class="btn btn-primary btn-full" onclick="app.checkoutFromBasket()">
+        Proceed to Renter Form &rarr;
+      </button>
+    </div>
+  </aside>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <div class="footer-logo">THE READING LOUNGE</div>
+        <p>India's premier book rental salon offering curated bestsellers, fiction, and classics delivered to your doorstep in Indian Rupees.</p>
+        <p class="copyright">&copy; 2026 The Reading Lounge. All rights reserved.</p>
+      </div>
+
+      <div class="footer-links-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="#" onclick="app.navigateTo('home'); return false;">Home Lounge</a></li>
+          <li><a href="#" onclick="app.navigateTo('genre'); return false;">Browse Genres</a></li>
+          <li><a href="#" onclick="app.navigateTo('pricelist'); return false;">Price List in ₹</a></li>
+          <li><a href="#" onclick="app.navigateTo('renterform'); return false;">Rentor Details Form</a></li>
+          <li><a href="#" onclick="app.navigateTo('contact'); return false;">Concierge Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links-col">
+        <h4>Top Titles</h4>
+        <ul>
+          <li><a href="#" onclick="app.filterGenreFromFooter('bestsellers'); return false;">The 5 AM Club</a></li>
+          <li><a href="#" onclick="app.filterGenreFromFooter('fiction'); return false;">Harry Potter Series</a></li>
+          <li><a href="#" onclick="app.filterGenreFromFooter('thriller'); return false;">The Silent Patient</a></li>
+          <li><a href="#" onclick="app.filterGenreFromFooter('fiction'); return false;">Before the Coffee Gets Cold</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links-col">
+        <h4>Reading Lounge Salon</h4>
+        <p class="footer-address">14 Regal Building, Connaught Place<br>New Delhi, 110001, India</p>
+        <p class="footer-phone">+91 98765 43210</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
